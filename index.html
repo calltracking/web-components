@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://app.calltrackingmetrics.com/assets/ctm-phone-8730166698c6621863340337868e88ba.js"></script>
+  <title>Embed Phone</title>
+  <style>
+    #slideup-content {
+      padding:0;
+    }
+    #slideup {
+      position: fixed;
+      bottom: 0;
+    }
+    #slideup.open {
+      height:95vh;
+    }
+    footer {
+      position:fixed;
+      bottom:0;
+    }
+  </style>
+</head>
+<body>
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <h5 class="my-0 mr-md-auto font-weight-normal">Dialer</h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-dark enable-sidebar" href="#">Phone Sidebar</a>
+    <a class="p-2 text-dark enable-slideup" href="#">Phone Slideup</a>
+  </nav>
+  <!--<a class="btn btn-outline-primary" href="#">Log out </a>-->
+</div>
+<!--
+  layout: full, wide or narrow
+-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col col-md-auto sidebar">
+      <ctm-phone id='myphone' ></ctm-phone>
+    </div>
+    <div class="col col-sm-8 contactlist">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Contact</th>
+            <th scope="col">Phone Number</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CallTrackingMetrics</td>
+            <td><a class='phone' href="tel:+18005771872">(800) 577-1872</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<footer class="pt-4 my-md-5 pt-md-5 border-top phone-footer" style="display:none">
+  <div id='slideup' class='card mb-4 shadow-sm'>
+    <div class='card-header'><a class='btn btn-outline-primary phone-slideup'>Phone</a></div>
+    <div id="slideup-content" class="card-body">
+    </div>
+  </div>
+</footer>
+<script>
+  var demoLayout = 'sidebar';
+  $(function() {
+    // events you can subscribe to control the phone
+    $('#myphone').on('incoming', function(e) {
+      console.log("incoming phone call or chat", e.detail);
+      openSlideup();
+    });
+    $('#myphone').on('resize', function(e) {
+      //console.log("requested to resize the phone element", e.detail);
+    });
+    $('#myphone').on('end', function(e) {
+      console.log("phone call or chat has ended", e.detail);
+    });
+    $('#myphone').on('answered', function(e) {
+      console.log("phone call or chat has been answered", e.detail);
+    });
+    $('#myphone').on('loaded', function(e) {
+      console.log("information about the incoming phone call or chat has been loaded", e.detail);
+    });
+    $('.phone').on('click', function(e) { e.preventDefault();
+      let dialNumber = e.target.getAttribute('href').replace('tel:','');
+      console.log("dialNumber:", dialNumber);
+      // tell the phone to dial a phone number using DOM API
+      document.getElementById('myphone').dispatchEvent(new CustomEvent('dial', { detail: { phoneNumber: dialNumber } }));
+      openSlideup();
+    });
+
+    // adjust the demo layout
+    $(".enable-slideup").on("click", function(e) { e.preventDefault();
+      demoLayout = 'slideup';
+      $(".phone-footer").show();
+      $("#slideup-content").append($("#myphone")); // move to footer
+      $(".contactlist").addClass("col-md-8");
+      $(".sidebar").hide();
+      $("#slideup-content").hide(); // start hidden
+    });
+    $(".enable-sidebar").on("click", function(e) { e.preventDefault();
+      demoLayout = 'sidebar';
+      $(".phone-footer").hide();
+      $(".sidebar").append($("#myphone")); // move to sidebar
+      $(".contactlist").removeClass("col-md-8");
+      $(".sidebar").show();
+    });
+    function openSlideup() {
+      if (demoLayout == 'slideup') {
+        $("#slideup").addClass("open");
+        $("#slideup-content").show();
+      }
+    }
+    function closeSlideup() {
+      if (demoLayout == 'slideup') {
+        $("#slideup").removeClass("open");
+        $("#slideup-content").hide();
+      }
+    }
+    $(".phone-slideup").on("click", function(e) { e.preventDefault();
+      $("#slideup").toggleClass("open");
+      $("#slideup-content").toggle();
+    });
+  });
+</script>
+</body>
+</html>
