@@ -70,7 +70,9 @@ The element has methods that allow you to control the phone externally.  You mig
 * hangupCall() hangup a live call.
 * sendDigit(digit) send a digit from the dial pad to the phone e.g. 1, 2, 3, 4, *, #, etc…
 
-## And events you can send to the phone to control it for example outbound dial
+## Events
+
+You can also send the phone events
 
 ```javascript
   document.getElementById('phone').dispatchEvent(new CustomEvent('dial', { detail: { phoneNumber: dialNumber } }));
