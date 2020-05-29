@@ -5,10 +5,44 @@ We offer a simple solution to embed our softphone into your website using [Web C
 ## One simple tag to embed the phone:
 
 ```html
-<ctm-phone id='phone'></ctm-phone>
+<html>
+<head>  
+  <script src="https://app.calltrackingmetrics.com/softphone-component.js"></script>
+</head>
+<body>
+  <ctm-phone></ctm-phone>
+</body>
+</html>
 ```
 
 ## Events to respond to the phone:
+
+Event	Description
+
+* **resize**
+    Sent when the soft phone is requesting to resize. you can subscribe to this event to allow the phone to expand or shrink depending on the content being displayed inside the phone.
+    *event.detail.data*:
+      ```{width: 350, height: 900}```
+* **incoming**
+    Sent when the soft phone starts ringing, so an agent can answer the phone. You may use this to ensure the phone is visible to the agent.
+    *event.detail.data*:
+      ```{ sid: 'CA…', from: '+1dddddddddd' }```
+* **answered**
+    When an agent answers the incoming phone call this event will trigger letting you know which call the agent has answered.
+    *event.detail.data*:
+      ```{ call: { .. }, callId: 1337}```
+* **loaded**
+    When the call record is loaded in the agents phone. This event will include full details of the answered call.
+    *event.detail.data*:
+      ```{ call: { .. }, callId: 1337}```
+* **end**
+    When the call the agent answered ends this event is triggered.
+    *event.detail.data*:
+    ```{ callId: 1337}```
+* **login**
+    When soft phone requires a user login
+    *event.detail.data*:
+      ```{ }```
 
 ```javascript
   $('#phone').on('resize', function(e) {
@@ -26,8 +60,17 @@ We offer a simple solution to embed our softphone into your website using [Web C
 
 ```
 
-## And events you can send to the phone to control it for example outbound dial
+## Methods available to control the phone
 
+The element has methods that allow you to control the phone externally.  You might use these methods to add additional functionality or click to dial type features.
+
+* dial(phoneNumber) make a phone call to the given phoneNumber.  The phoneNumber should be in +E.164 format.
+* muteCall() toggle the agents microphone.
+* answerCall() answer an incoming phone call.
+* hangupCall() hangup a live call.
+* sendDigit(digit) send a digit from the dial pad to the phone e.g. 1, 2, 3, 4, *, #, etc…
+
+## And events you can send to the phone to control it for example outbound dial
 
 ```javascript
   document.getElementById('phone').dispatchEvent(new CustomEvent('dial', { detail: { phoneNumber: dialNumber } }));
