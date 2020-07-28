@@ -64,7 +64,9 @@ Event	Description
 
 The element has methods that allow you to control the phone externally.  You might use these methods to add additional functionality or click to dial type features.
 
-* dial(phoneNumber) make a phone call to the given phoneNumber.  The phoneNumber should be in +E.164 format.
+* dial(phoneNumber, trackingNumber) make a phone call to the given phoneNumber from the given trackingNumber (optional).  
+  * The phoneNumber and trackingNumber should be in +E.164 format. 
+  * If the optional trackingNumber is not passed, the first tracking number found in the account will be used as the **outbound caller id**.
 * muteCall() toggle the agents microphone.
 * answerCall() answer an incoming phone call.
 * hangupCall() hangup a live call.
