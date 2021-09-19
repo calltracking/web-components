@@ -71,6 +71,8 @@ The element has methods that allow you to control the phone externally.  You mig
 * answerCall() answer an incoming phone call.
 * hangupCall() hangup a live call.
 * sendDigit(digit) send a digit from the dial pad to the phone e.g. 1, 2, 3, 4, *, #, etc…
+* clearDialPad() clear all input in the dial pad
+* setNumber() set the local number in the dial pad
 
 ## Events
 
