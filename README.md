@@ -4,7 +4,7 @@ You will need to include our ctm-phone-embed javascript that exposes a web compo
 tag for you to place and style in your application.
 You will also need a server side component to get an access token securely from CallTrackingMetrics to authenticate the phone.
 
-```
+```html
 <script src="https://app.calltrackingmetrics.com/ctm-phone-embed-1.0.js"></script>
 <ctm-phone-embed access="/ctm-phone-access"></ctm-phone-embed>
 ```
@@ -25,10 +25,14 @@ The request should upload a JSON encoded body that includes the following proper
 | last_name  |  the last name of the user. |
 | session_id |  a session id you use to uniquely identify the user. This can be used to also log the user out. |
 
-```{"email":"you-user@example.com","first_name":"firstname","last_name":"lastname","session_id":"unique session id for your application"}```
+```json
+{"email":"you-user@example.com","first_name":"firstname","last_name":"lastname","session_id":"unique session id for your application"}
+```
 Your application should proxy/forward the response from CTM including in the response the additional fields: "sessionId" (note the camel case here), "email", "first_name", and "last_name" in the response.
 
-```{"status":"ok","token":"CTM generated token","valid_until": 600, "sessionId": "your session id", "email":"you-user@example.com","first_name":"firstname","last_name":"lastname","session_id":"unique session id for your application"}```
+```json
+{"status":"ok","token":"CTM generated token","valid_until": 600, "sessionId": "your session id", "email":"you-user@example.com","first_name":"firstname","last_name":"lastname","session_id":"unique session id for your application"}
+```
 Example Applications
 DotNET C#: https://github.com/calltracking/ctm-csharp/tree/master/CTMPhoneExample
 
