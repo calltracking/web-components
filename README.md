@@ -17,14 +17,18 @@ replacing accountId with the accountId you're authenticating too. You'll need to
 authenticate with basic authentication over an TLS connection (e.g. https protocol).
 The request should upload a JSON encoded body that includes the following properties:
 
-email: the email address of the user authenticating to CTM.
-first_name: the first name of the user.
-last_name: the last name of the user.
-session_id: a session id you use to uniquely identify the user. This can be used to also log the user out.
-{"email":"you-user@example.com","first_name":"firstname","last_name":"lastname","session_id":"unique session id for your application"}
+## Auth Parameters
+| Parameter  | Description |
+|------------|-------------|
+| email      | the email address of the user authenticating to CTM. |
+| first_name | the first name of the user. |
+| last_name  |  the last name of the user. |
+| session_id |  a session id you use to uniquely identify the user. This can be used to also log the user out. |
+
+```{"email":"you-user@example.com","first_name":"firstname","last_name":"lastname","session_id":"unique session id for your application"}```
 Your application should proxy/forward the response from CTM including in the response the additional fields: "sessionId" (note the camel case here), "email", "first_name", and "last_name" in the response.
 
-{"status":"ok","token":"CTM generated token","valid_until": 600, "sessionId": "your session id", "email":"you-user@example.com","first_name":"firstname","last_name":"lastname","session_id":"unique session id for your application"}
+```{"status":"ok","token":"CTM generated token","valid_until": 600, "sessionId": "your session id", "email":"you-user@example.com","first_name":"firstname","last_name":"lastname","session_id":"unique session id for your application"}```
 Example Applications
 DotNET C#: https://github.com/calltracking/ctm-csharp/tree/master/CTMPhoneExample
 
